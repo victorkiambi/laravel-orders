@@ -22,3 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/admin', [App\Http\Controllers\Admin\DashboardController::class,'index'])->middleware('role:admin');
 Route::get('/user', [App\Http\Controllers\User\DashboardController::class,'index'])->middleware('role:user');
+Route::post('/user/create/order', [App\Http\Controllers\OrdersController::class,'store'])->middleware('role:user');
+
+Route::get('/admin/show/orders', [App\Http\Controllers\OrdersController::class,'show'])->middleware('role:admin');

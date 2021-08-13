@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 4</title>
+    <title>Essayzillas</title>
 
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -224,30 +224,27 @@
 
             </li>
             <li>
-                <a href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
+                <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
                 <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
 
             </li>
-
         </ul>
-
-
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
-{{--        @include('layouts.flash')--}}
-{{--        @if ($errors->any())--}}
-{{--            <div class="alert alert-danger">--}}
-{{--                <ul>--}}
-{{--                    @foreach ($errors->all() as $error)--}}
-{{--                        <li>{{ $error }}</li>--}}
-{{--                    @endforeach--}}
-{{--                </ul>--}}
-{{--            </div>--}}
-{{--        @endif--}}
+        {{--        @include('layouts.flash')--}}
+        {{--        @if ($errors->any())--}}
+        {{--            <div class="alert alert-danger">--}}
+        {{--                <ul>--}}
+        {{--                    @foreach ($errors->all() as $error)--}}
+        {{--                        <li>{{ $error }}</li>--}}
+        {{--                    @endforeach--}}
+        {{--                </ul>--}}
+        {{--            </div>--}}
+        {{--        @endif--}}
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -271,34 +268,34 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Page</a>
                         </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="{{ route('logout') }}" onclick="event.preventDefault();
+                        <li class="nav-item ">
+                            <a class="nav-link " href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                {{ __('Logout') }}
 
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
 
-{{--                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">--}}
-{{--                                    <a class="dropdown-item" href="{{ route('logout') }}"--}}
-{{--                                       onclick="event.preventDefault();--}}
-{{--                                                     document.getElementById('logout-form').submit();">--}}
-{{--                                        {{ __('Logout') }}--}}
-{{--                                    </a>--}}
+                            {{--                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">--}}
+                            {{--                                    <a class="dropdown-item" href="{{ route('logout') }}"--}}
+                            {{--                                       onclick="event.preventDefault();--}}
+                            {{--                                                     document.getElementById('logout-form').submit();">--}}
+                            {{--                                        {{ __('Logout') }}--}}
+                            {{--                                    </a>--}}
 
-{{--                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
-{{--                                        @csrf--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-                            </li>
+                            {{--                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
+                            {{--                                        @csrf--}}
+                            {{--                                    </form>--}}
+                            {{--                                </div>--}}
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <h2>Create New Order</h2>
+        <h4>Create New Order</h4>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -367,22 +364,6 @@
             </div>
 
         </div>
-        <hr>
-        <div class="line"></div>
-
-        {{--            <h2>Lorem Ipsum Dolor</h2>--}}
-        {{--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--}}
-
-        {{--            <div class="line"></div>--}}
-
-        {{--            <h2>Lorem Ipsum Dolor</h2>--}}
-        {{--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--}}
-
-        {{--            <div class="line"></div>--}}
-
-        {{--            <h3>Lorem Ipsum Dolor</h3>--}}
-        {{--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--}}
-        {{--        </div>--}}
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Levels;
 use App\Models\Orders;
 use App\Http\Controllers\Controller;
+use App\Models\Services;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use function PHPUnit\Framework\returnArgument;
 
 class OrdersController extends Controller
 {
@@ -47,7 +51,6 @@ class OrdersController extends Controller
             'pages' => 'required',
             'deadline'=> 'required',
             'level'=>'required',
-
         ]);
 
 
@@ -79,27 +82,36 @@ class OrdersController extends Controller
      */
     public function show(Orders $orders)
     {
+
+        $services = Services::all();
+        $levels = Levels::all();
         if(request()->ajax()) {
             return datatables()->of(Orders::select('*'))
+                ->addColumn('action', function($row){
+                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-product">Edit</a>
+                            <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                })
+                ->rawColumns(['action'])
 //                ->addColumn('action', 'company-action')
 //                ->rawColumns(['action'])
 //                ->addIndexColumn()
                 ->make(true);
         }
-        return view('admin.dashboard');
+        return view('users.orders',['services'=> $services, 'levels'=> $levels]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Orders  $orders
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Orders $orders)
+    public function edit($id)
     {
-        //
-    }
+        $order = Orders::find($id);
+        return response()->json($order);
 
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -107,9 +119,30 @@ class OrdersController extends Controller
      * @param  \App\Models\Orders  $orders
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Orders $orders)
+    public function update(Request $request)
     {
-        //
+//        $validated = $request->validate([
+//            'id' => 'required',
+//            'type' => 'required',
+//            'pages' => 'required',
+//            'deadline'=> 'required',
+//            'level'=>'required',
+//        ]);
+
+//       return $request;
+
+        $order = Orders::where('id',$request->order_id)->first();
+
+//        return response()->json($order);
+        $order->order_type = $request['type'];
+        $order->order_pages = $request['pages'];
+        $order->order_deadline = $request['deadline'];
+        $order->order_instructions = $request->instructions ?: "";
+        $order->order_level= $request['level'];
+
+        $order->save();
+
+        return back()->with('success','Order updated successfully!');
     }
 
     /**

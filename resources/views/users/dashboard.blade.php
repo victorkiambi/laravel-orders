@@ -235,16 +235,16 @@
 
     <!-- Page Content  -->
     <div id="content">
-        {{--        @include('layouts.flash')--}}
-        {{--        @if ($errors->any())--}}
-        {{--            <div class="alert alert-danger">--}}
-        {{--                <ul>--}}
-        {{--                    @foreach ($errors->all() as $error)--}}
-        {{--                        <li>{{ $error }}</li>--}}
-        {{--                    @endforeach--}}
-        {{--                </ul>--}}
-        {{--            </div>--}}
-        {{--        @endif--}}
+                @include('utilities.flash')
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">

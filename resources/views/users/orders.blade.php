@@ -223,7 +223,7 @@
 
             </li>
             <li>
-                <a href="{{url('/user/show/order')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
+                <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
                 <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
@@ -406,8 +406,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         let url = window.location.href;
-        $('#example').DataTable( {
+        let table = $('#example').DataTable( {
             ajax: {
                 processing: true,
                 serverSide: true,
@@ -451,6 +456,27 @@
 
                 console.log(data)
             })
+        });
+        $('body').on('click', '.delete-order', function () {
+
+            let orderId =  $(this).data('id');
+            let url = window.location.origin;
+            let newurl = window.location.href;
+            confirm("Are You sure want to delete !");
+
+            $.ajax({
+                type: "DELETE",
+                data: { "_token": "{{ csrf_token() }}"},
+                url: url+"/user/delete"+'/'+orderId,
+                success: function (data) {
+                    table.ajax.url(newurl).load();
+
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
         });
 
         $("#sidebar").mCustomScrollbar({

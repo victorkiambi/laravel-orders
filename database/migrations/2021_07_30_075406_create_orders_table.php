@@ -19,9 +19,12 @@ class CreateOrdersTable extends Migration
             $table->string('user_email');
             $table->string('order_type');
             $table->string('order_pages');
+            $table->string('order_words');
             $table->string('order_status');
             $table->string('order_level');
-            $table->date('order_deadline');
+            $table->date('order_deadline_date');
+            $table->time('order_deadline_time');
+            $table->string('order_format');
             $table->longText('order_instructions');
             $table->string('file_name')->nullable();
             $table->string('file_path')->nullable();

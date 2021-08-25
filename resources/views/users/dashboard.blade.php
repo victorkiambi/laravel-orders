@@ -10,6 +10,8 @@
 
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css" integrity="sha512-LT9fy1J8pE4Cy6ijbg96UkExgOjCqcxAC7xsnv+mLJxSvftGVmmc236jlPTZXPcBRQcVOWoK1IJhb1dAjtb4lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {{--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">--}}
     <!-- Our Custom CSS -->
@@ -20,6 +22,17 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
     <style>
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
         /*
     DEMO STYLE
 */
@@ -311,15 +324,24 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label for="select-pages" class="form-label">Pages</label>
-                                <select class="form-select" aria-label="Default select example" name="pages">
-                                    <option selected>1 Page 275 words</option>
-
-                                    <option value="2 Pages 550 words">2 Pages 550 words</option>
-                                    <option value="3 Pages 825 words">3 Pages 825 words</option>
-                                </select>
+                                <div class="pages" style="display: flex;align-items: stretch; position: relative">
+                                    <button type="button" id="decrement" class="btn btn-light">-</button>
+                                    <input  id="pages" type="number" class="form-control" name="pages" value="1" readonly required style="text-align: center">
+                                    <button type="button" id="increment" class="btn btn-light">+</button>
+                                </div>
                             </div>
+                            <div class="col-md-2">
+                                <label for="select-pages" class="form-label">Page Details</label>
+                                <input  id="words" type="text" class="form-control" name="words" readonly value="" required >
+                            </div>
+{{--                                <select class="form-select" aria-label="Default select example" name="pages">--}}
+{{--                                    <option selected>1 Page 275 words</option>--}}
+
+{{--                                    <option value="2 Pages 550 words">2 Pages 550 words</option>--}}
+{{--                                    <option value="3 Pages 825 words">3 Pages 825 words</option>--}}
+{{--                                </select>--}}
                             <div class="col-6">
                                 <label for="inputAddress" class="form-label">Level</label>
                                 <select class="form-select" aria-label="Default select example" name="level">
@@ -328,11 +350,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-6">
-                                <label for="inputAddress2" class="form-label">Deadline</label>
-                                <input type="date" class="form-control" name="deadline" required >
+                                <div class="col-md-3">
+                                    <label for="date" class="form-label">Deadline</label>
+                                    <input  id="date" type="date" class="form-control" name="deadline" required >
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="timepicker" class="form-label">Time</label>
+                                    <input  id="" type="time" class="form-control" name="deadline" value="21:00" required >
+                                </div>
 
-                            </div>
                             <div class="col-6">
                                 <label for="formFile" class="form-label">Upload File</label>
                                 <input class="form-control" type="file" name="file" >
@@ -368,20 +394,72 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js" integrity="sha512-s5u/JBtkPg+Ff2WEr49/cJsod95UgLHbC00N/GglqdQuLnYhALncz8ZHiW/LxDRGduijLKzeYb7Aal9h3codZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-addon-i18n.min.js" integrity="sha512-t2ZIJH81Sh+SWSb4BuA9en4j6fwja+sYOEXbqoepD9lJ+efUGD94gSWqdmgQchGmPez2ojECq4Fm6bKMUAzIiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- jQuery Custom Scroller CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
 
+        $('#timepicker').timepicker({
+            controlType: 'select',
+            oneLine: true,
+            timeFormat: 'hh:mm tt'
+        });
+
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar, #content').toggleClass('active');
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+
+        let pages = $('#pages').val();
+        console.log(pages);
+        let words = pages * 275;
+        $('#words').val(words + " words");
+
+        $('#increment').on('click', function (){
+         let oldValue = $('#pages').val();
+            console.log('this oldvalue' + oldValue)
+         let newValue = parseFloat(oldValue) + 1;
+            console.log('this newvalue' + newValue)
+            let newWords = newValue * 275;
+         $('#words').val(newWords + " words");
+            $('#pages').val(newValue);
+        })
+        $('#pages').on('keyup',function(e){
+
+            let oldValue = $('#pages').val();
+            console.log('this oldvalue' + oldValue)
+            let newValue = parseFloat(oldValue) + 1;
+            console.log('this newvalue' + newValue)
+            let newWords = newValue * 275;
+            $('#words').val(newWords + " words");
+            $('#pages').val(newValue);
+        });
+        $('#decrement').on('click',function(e){
+            e.preventDefault();
+            let quantity = parseInt($('#pages').val());
+
+            if (quantity <= 0) {
+                $('#pages').val(0);
+                $('#words').val(0 + " words");
+            }
+            else {
+                let oldValue = $('#pages').val();
+                console.log('this oldvalue' + oldValue)
+                let newValue = parseFloat(oldValue) - 1;
+                console.log('this newvalue' + newValue)
+                let newWords = newValue * 275;
+                $('#words').val(newWords + " words");
+                $('#pages').val(newValue);
+            }
+
+
         });
     });
 </script>

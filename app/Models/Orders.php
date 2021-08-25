@@ -12,6 +12,9 @@ class Orders extends Model
     protected $fillable = [
         'order_type',
         'order_pages',
+        'order_words',
+        'order_format',
+        'order_time',
         'order_status',
         'order_level',
         'order_deadline',

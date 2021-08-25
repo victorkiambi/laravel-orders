@@ -46,6 +46,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+//        return $request;
 
         $validated = $request->validate([
             'type' => 'required',

@@ -205,6 +205,10 @@
             #sidebarCollapse span {
                 display: none;
             }
+
+        }
+        .card{
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         }
     </style>
 </head>
@@ -215,29 +219,24 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h5>Essayzillas</h5>
+            <h3>Essayzilas</h3>
         </div>
 
         <ul class="list-unstyled components">
+
             <li class="active">
-                <a href="#homeSubmenu" ><i class="fas fa-shopping-cart"></i> Orders</a>
+                <a href="{{url('/user')}}"><i class="fas fa-home"></i>  Home</a>
 
             </li>
             <li>
-                <a href="#"><i class="fas fa-user-friends"></i> Users</a>
+                <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
-                <a href="#pageSubmenu"><i class="fas fa-money-bill-wave"></i> Payments</a>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-clipboard"></i> Reports</a>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
             </li>
         </ul>
-
     </nav>
+
 
     <!-- Page Content  -->
     <div id="content">
@@ -300,25 +299,81 @@
             </div>
         </nav>
 
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Order {{$order->id}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Page(s)</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">{{$order->id}}</th>
+                                <td>{{$order->order_type}}</td>
+                                <td>{{$order->order_pages}}</td>
+                                <td>18</td>
+                            </tr>
 
-            <table id="example" class="display nowrap" style="width:100%">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Email</th>
-                    <th>Service</th>
-                    <th>Level</th>
-                    <th>Status</th>
-                    <th>Pages</th>
-                    <th>Deadline</th>
-                    <th>Time</th>
-                </tr>
-                </thead>
+                            </tbody>
+                        </table>
+                        <a href="#" class="btn btn-primary" style="float: right">Pay</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card" style="font-size: small">
+                    <div class="card-header">
+                        <h5 class="card-title">Order Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Order Status</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{$order->order_status}}"
+                                       style="padding-top: 0">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Order Deadline</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{$order->order_deadline_date}}"
+                                       style="padding-top: 0">
+                            </div>
+                        </div>
+                        <hr>
 
-            </table>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Client Name</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{$order->user_email}}"
+                                       style="padding-top: 0">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Service</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{$order->order_type}}"
+                                       style="padding-top: 0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>
+
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
@@ -332,25 +387,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         let url = window.location.href;
-        $('#example').DataTable( {
-            ajax: {
-                processing: true,
-                serverSide: true,
-                url: url+"/show/orders",
-                method: "GET",
-            },
-            columns: [
-                { data: "id", name:  "id"},
-                { data: "user_email", name: "user_id" },
-                { data: "order_type", name: "order_type"},
-                { data: "order_level", name: "order_level" },
-                {data: "order_status", name:"order_status" },
-                { data: "order_words", name: "order_words" },
-                { data: "order_deadline_date", name: "order_deadline_date" },
-                { data: "order_deadline_time", name: "order_deadline_time" },
-
-            ]
-        });
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"

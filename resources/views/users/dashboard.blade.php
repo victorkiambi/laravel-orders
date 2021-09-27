@@ -218,6 +218,9 @@
                 display: none;
             }
         }
+        .card{
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
     </style>
 </head>
 
@@ -328,20 +331,16 @@
                                 <label for="select-pages" class="form-label">Pages</label>
                                 <div class="pages" style="display: flex;align-items: stretch; position: relative">
                                     <button type="button" id="decrement" class="btn btn-light">-</button>
-                                    <input  id="pages" type="number" class="form-control" name="pages" value="1" readonly required style="text-align: center">
+                                    <input  id="pages" type="number" class="form-control" name="pages" value="1"
+                                            readonly required style="text-align: center">
                                     <button type="button" id="increment" class="btn btn-light">+</button>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <label for="select-pages" class="form-label">Page Details</label>
-                                <input  id="words" type="text" class="form-control" name="words" readonly value="" required >
+                                <input  id="words" type="text" class="form-control" name="words"
+                                        readonly value="" required >
                             </div>
-{{--                                <select class="form-select" aria-label="Default select example" name="pages">--}}
-{{--                                    <option selected>1 Page 275 words</option>--}}
-
-{{--                                    <option value="2 Pages 550 words">2 Pages 550 words</option>--}}
-{{--                                    <option value="3 Pages 825 words">3 Pages 825 words</option>--}}
-{{--                                </select>--}}
                             <div class="col-6">
                                 <label for="inputAddress" class="form-label">Level</label>
                                 <select class="form-select" aria-label="Default select example" name="level">
@@ -356,12 +355,20 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="timepicker" class="form-label">Time</label>
-                                    <input  id="" type="time" class="form-control" name="deadline" value="21:00" required >
+                                    <input  id="" type="time" class="form-control" name="time" value="21:00" required >
                                 </div>
 
                             <div class="col-6">
                                 <label for="formFile" class="form-label">Upload File</label>
                                 <input class="form-control" type="file" name="file" >
+                            </div>
+                            <div class="col-6">
+                                <label for="format" class="form-label">Format</label>
+                                <select class="form-select" aria-label="Default select example" name="format">
+                                    <option selected>APA</option>
+                                    <option value="2 Pages 550 words">MLA</option>
+{{--                                    <option value="3 Pages 825 words">3 Pages 825 words</option>--}}
+                            </select>
                             </div>
                             <div class="col-md-12">
                                 <label for="exampleFormControlTextarea1" class="form-label">Instructions</label>

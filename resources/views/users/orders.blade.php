@@ -305,8 +305,9 @@
                 <th>Service</th>
                 <th>Level</th>
                 <th>Status</th>
-                <th>Pages</th>
-                <th>Deadline</th>
+                <th>Words</th>
+                <th>Deadline Date</th>
+                <th>Deadline Time</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -425,8 +426,9 @@
                 { data: "order_type", name: "order_type"},
                 { data: "order_level", name: "order_level" },
                 {data: "order_status", name:"order_status" },
-                { data: "order_pages", name: "order_pages" },
-                { data: "order_deadline", name: "order_deadline" },
+                { data: "order_words", name: "order_pages" },
+                { data: "order_deadline_date", name: "order_deadline_date" },
+                { data: "order_deadline_time", name: "order_deadline_time" },
                 {
                     data: 'action',
                     name: 'action',

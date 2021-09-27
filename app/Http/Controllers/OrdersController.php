@@ -53,6 +53,7 @@ class OrdersController extends Controller
             'pages' => 'required',
             'deadline'=> 'required',
             'level'=>'required',
+            'words'=> 'required',
         ]);
 
 
@@ -65,14 +66,19 @@ class OrdersController extends Controller
         $order->user_email = Auth::user()->email;
         $order->order_type = $validated['type'];
         $order->order_pages = $validated['pages'];
-        $order->order_deadline = $validated['deadline'];
+        $order->order_words = $validated['words'];
+        $order->order_format = $request['format'];
+
+        $order->order_deadline_date = $validated['deadline'];
+        $order->order_deadline_time = $request['time'];
         $order->order_instructions = $request->instructions ?: "";
         $order->order_level= $validated['level'];
         $order->order_status = "submitted";
         $order->file_name = $fileName;
         $order->file_path = $filePath;
         $order->save();
-        return back()->with('success','Order created successfully!');
+
+        return redirect()->back()->with('Success', 'Order created Successfully');
 
     }
 
@@ -82,13 +88,13 @@ class OrdersController extends Controller
      * @param  \App\Models\Orders  $orders
      * @return \Illuminate\Http\Response
      */
-    public function show(Orders $orders)
+    public function show()
     {
-
+        $user_id =  Auth::user()->id;
         $services = Services::all();
         $levels = Levels::all();
         if(request()->ajax()) {
-            return datatables()->of(Orders::select('*'))
+            return datatables()->of(Orders::select('*') ->where('id', $user_id))
                 ->addColumn('action', function($row){
                     return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-product">Edit</a>
                             <a href="javascript:void(0)" data-id="'.$row->id.'" class="delete-order btn btn-danger btn-sm">Delete</a>';
@@ -112,6 +118,13 @@ class OrdersController extends Controller
     {
         $order = Orders::find($id);
         return response()->json($order);
+
+    }
+
+    public function view($id)
+    {
+        $order = Orders::find($id);
+        return view('users.payment', ['order'=> $order]);
 
     }
     /**

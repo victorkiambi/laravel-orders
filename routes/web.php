@@ -28,5 +28,6 @@ Route::get('/user/show/orders', [App\Http\Controllers\OrdersController::class,'s
 Route::get('/user/edit/{id}', [App\Http\Controllers\OrdersController::class,'edit'])->middleware('role:user');
 Route::post('/user/update', [App\Http\Controllers\OrdersController::class,'update'])->middleware('role:user');
 Route::delete('/user/delete/{id}', [App\Http\Controllers\OrdersController::class,'destroy'])->middleware('role:user');
+Route::get('/user/order/{id}', [App\Http\Controllers\OrdersController::class,'view'])->middleware('role:user');
 
 Route::get('/admin/show/orders', [App\Http\Controllers\Admin\DashboardController::class,'show'])->middleware('role:admin');

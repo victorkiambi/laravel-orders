@@ -325,7 +325,11 @@
 
                             </tbody>
                         </table>
-                        <a href="#" class="btn btn-primary" style="float: right">Pay</a>
+                        <div class="float-right">
+                            <a href="#" class="btn btn-primary" style="">Pay</a>
+                            <a href="#" class="btn btn-danger delete-order" style="">Delete</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -397,7 +401,28 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+        $('body').on('click', '.delete-order', function () {
 
+            let orderId =  {{$order->id}};
+            console.log("my id"+orderId)
+            let url = window.location.origin;
+            let newurl = window.location.href;
+            confirm("Are You sure want to delete !");
+
+            $.ajax({
+                type: "DELETE",
+                data: { "_token": "{{ csrf_token() }}"},
+                url: url+"/user/delete"+'/'+orderId,
+                success: function (data) {
+                    window.location.href = url +'/user/show/orders';
+
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
     });
 </script>
 </body>

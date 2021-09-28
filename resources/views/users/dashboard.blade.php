@@ -251,16 +251,7 @@
 
     <!-- Page Content  -->
     <div id="content">
-                @include('utilities.flash')
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -310,7 +301,24 @@
                 </div>
             </div>
         </nav>
+        @include('utilities.flash')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
+        @if (Session::has('success'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ Session::get('success') }}</li>
+                </ul>
+            </div>
+        @endif
         <h4>Create New Order</h4>
         <div class="row">
             <div class="col-sm-12">

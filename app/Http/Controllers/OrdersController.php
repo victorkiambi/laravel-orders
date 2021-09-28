@@ -79,8 +79,9 @@ class OrdersController extends Controller
 
         $order->save();
 
-        return redirect()->back()->with('Success', 'Order created Successfully');
+//        return redirect()->back()->with('Success', 'Order created Successfully');
 
+        return redirect('/user/show/orders');
     }
 
     /**
@@ -98,8 +99,8 @@ class OrdersController extends Controller
         if(request()->ajax()) {
             return Datatables::of(Orders::select('*') ->where('user_id', $user_id))
                 ->addColumn('action', function($row){
-                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-product">Edit</a>
-                            <a href="javascript:void(0)" data-id="'.$row->id.'" class="delete-order btn btn-danger btn-sm">Delete</a>';
+                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="view btn btn-success btn-sm view-order">View</a>
+                            <a href="javascript:void(0)" data-id="'.$row->id.'" class="edit edit-product btn btn-primary btn-sm">Edit</a>';
                 })
                 ->rawColumns(['action'])
 //                ->addColumn('action', 'company-action')
@@ -166,12 +167,13 @@ class OrdersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Orders  $orders
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function destroy(Orders $orders, $id)
     {
         Orders::find($id)->delete();
 
         return response()->json(['success'=>'Product deleted successfully.']);
+//        return redirect('/user/show/orders');
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Tests\Integration\Queue\Order;
+use Yajra\DataTables\Facades\DataTables;
 use function PHPUnit\Framework\returnArgument;
 
 class OrdersController extends Controller
@@ -46,8 +47,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-//        return $request;
-
+//
         $validated = $request->validate([
             'type' => 'required',
             'pages' => 'required',
@@ -76,6 +76,7 @@ class OrdersController extends Controller
         $order->order_status = "submitted";
         $order->file_name = $fileName;
         $order->file_path = $filePath;
+
         $order->save();
 
         return redirect()->back()->with('Success', 'Order created Successfully');
@@ -85,8 +86,9 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Orders  $orders
+     * @param \App\Models\Orders $orders
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show()
     {
@@ -94,7 +96,7 @@ class OrdersController extends Controller
         $services = Services::all();
         $levels = Levels::all();
         if(request()->ajax()) {
-            return datatables()->of(Orders::select('*') ->where('id', $user_id))
+            return Datatables::of(Orders::select('*') ->where('user_id', $user_id))
                 ->addColumn('action', function($row){
                     return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-product">Edit</a>
                             <a href="javascript:void(0)" data-id="'.$row->id.'" class="delete-order btn btn-danger btn-sm">Delete</a>';

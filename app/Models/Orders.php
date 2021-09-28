@@ -25,4 +25,6 @@ class Orders extends Model
 
 
     ];
+
+
 }

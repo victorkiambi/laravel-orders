@@ -99,8 +99,8 @@ class OrdersController extends Controller
         if(request()->ajax()) {
             return Datatables::of(Orders::select('*') ->where('user_id', $user_id))
                 ->addColumn('action', function($row){
-                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="view btn btn-success btn-sm view-order">View</a>
-                            <a href="javascript:void(0)" data-id="'.$row->id.'" class="edit edit-product btn btn-primary btn-sm">Edit</a>';
+                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-product">Edit</a>
+                            <a href="javascript:void(0)" data-id="'.$row->id.'" class="delete delete-product btn btn-danger btn-sm">Delete</a>';
                 })
                 ->rawColumns(['action'])
 //                ->addColumn('action', 'company-action')
@@ -127,7 +127,7 @@ class OrdersController extends Controller
     public function view($id)
     {
         $order = Orders::find($id);
-        return view('users.payment', ['order'=> $order]);
+        return view('users.makepayment', ['order'=> $order]);
 
     }
     /**
@@ -175,5 +175,23 @@ class OrdersController extends Controller
 
         return response()->json(['success'=>'Product deleted successfully.']);
 //        return redirect('/user/show/orders');
+    }
+
+    public function orders(){
+        $user_id =  Auth::user()->id;
+        $services = Services::all();
+        $levels = Levels::all();
+        if(request()->ajax()) {
+            return Datatables::of(Orders::select('*') ->where('user_id', $user_id))
+                ->addColumn('action', function($row){
+                    return '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$row->id.'" class="view btn btn-success btn-sm view-order">Pay</a>';
+                })
+                ->rawColumns(['action'])
+//                ->addColumn('action', 'company-action')
+//                ->rawColumns(['action'])
+//                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('users.payments',['services'=> $services, 'levels'=> $levels]);
     }
 }

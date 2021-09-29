@@ -52,7 +52,7 @@
             background: #fff;
             border: none;
             border-radius: 0;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
@@ -210,6 +210,19 @@
         .card{
             box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         }
+        /* Media query for mobile viewport */
+        @media screen and (max-width: 400px) {
+            #paypal-button-container {
+                width: 100%;
+            }
+        }
+
+        /* Media query for desktop viewport */
+        @media screen and (min-width: 400px) {
+            #paypal-button-container {
+                width: 250px;
+            }
+        }
     </style>
 </head>
 
@@ -326,7 +339,9 @@
                             </tbody>
                         </table>
                         <div class="float-right">
-                            <a href="#" class="btn btn-primary" style="">Pay</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Pay
+                            </button>
                             <a href="#" class="btn btn-danger delete-order" style="">Delete</a>
                         </div>
 
@@ -373,14 +388,150 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pay with Paypal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                <div class="card-body">
+                    <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{{ url("postPaymentWithpaypal") }}" >
+                        {{ csrf_field() }}
+
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Order No.</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext"
+                                       id="orderid"
+                                       name="orderid"
+                                       value="{{$order->id}}"
+                                   style="padding-top: 0">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Service</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext"
+                                       id="service"
+                                       name="service"
+                                       value="{{$order->order_type}}"
+                                   style="padding-top: 0">
+                            </div>
+                        </div>
+                    <hr>
+
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4">Pages</label>
+                        <div class="col">
+                            <input type="text" readonly class="form-control-plaintext"
+                                   id="pages"
+                                   name="pages"
+                                   value="{{$order->order_pages}}"
+                                   style="padding-top: 0">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4">Order Status</label>
+                        <div class="col">
+                            <input type="text" readonly class="form-control-plaintext"
+                                   id="status"
+                                   name="status"
+                                   value="{{$order->order_status}}"
+                                   style="padding-top: 0">
+                        </div>
+                    </div>
+
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-4">Total</label>
+                            <div class="col">
+                                <input type="text" readonly class="form-control-plaintext"
+                                       id="total"
+                                       name="total"
+                                       value=9.00
+                                       style="padding-top: 0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div id="paypal-button-container"></div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
 
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
+
+<script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency=USD"></script>
+<script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        // Call your server to set up the transaction
+        createOrder: function(data, actions) {
+            return fetch('/api/paypal/order/create', {
+                method: 'POST',
+                body:JSON.stringify({
+                    'course_id': "{{$order->id}}",
+                    'user_id' : "{{auth()->user()->id}}",
+                    'amount' : $("#total").val(),
+                })
+            }).then(function(res) {
+                //res.json();
+                return res.json();
+            }).then(function(orderData) {
+                console.log("this order data id",orderData);
+                return orderData.id;
+            });
+        },
+
+        // Call your server to finalize the transaction
+        onApprove: function(data, actions) {
+            return fetch('/api/paypal/order/capture' , {
+                method: 'POST',
+                body :JSON.stringify({
+                    orderId : data.orderID,
+                    payment_gateway_id: "{{$order->id}}",
+                    user_id: "{{ auth()->user()->id }}",
+                })
+            }).then(function(res) {
+                console.log(res.json());
+                // return res.json();
+            }).then(function(orderData) {
+
+                // Successful capture! For demo purposes:
+                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                // var transaction = orderData.purchase_units[0].payments.captures[0];
+                // iziToast.success({
+                //     title: 'Success',
+                //     message: 'Payment completed',
+                //     position: 'topRight'
+                // });
+            });
+        }
+
+    }).render('#paypal-button-container');
+</script>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>

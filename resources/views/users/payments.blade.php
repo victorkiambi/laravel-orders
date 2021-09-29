@@ -9,32 +9,20 @@
     <title>Essayzillas</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css" integrity="sha512-LT9fy1J8pE4Cy6ijbg96UkExgOjCqcxAC7xsnv+mLJxSvftGVmmc236jlPTZXPcBRQcVOWoK1IJhb1dAjtb4lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-{{--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">--}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <style>
-
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
         /*
-    DEMO STYLE
+ DEMO STYLE
 */
 
         @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
@@ -217,6 +205,7 @@
             #sidebarCollapse span {
                 display: none;
             }
+
         }
         .card{
             box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
@@ -244,14 +233,22 @@
             </li>
             <li>
                 <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
-
             </li>
         </ul>
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
-
+        @include('utilities.flash')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -265,7 +262,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto float-right">
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="#">Page</a>
                         </li>
@@ -301,86 +298,82 @@
                 </div>
             </div>
         </nav>
-        @include('utilities.flash')
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
-        @if (Session::has('success'))
-            <div class="alert alert-success">
-                <ul>
-                    <li>{{ Session::get('success') }}</li>
-                </ul>
+        <div class="card">
+            <div class="card-header">
+                <h4><b>My orders</b></h4>
             </div>
-        @endif
-        <h4>Create New Order</h4>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="row g-3 needs-validation" action="{{ url("user/create/order") }}" method="POST" enctype="multipart/form-data">
+            <div class="card-body">
+                <div class="table-responsive ">
+                    <table id="example" class="display table-responsive nowrap" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Service</th>
+                            <th>Level</th>
+                            <th>Status</th>
+                            <th>Words</th>
+                            <th>Deadline Date</th>
+                            <th>Deadline Time</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="edit-form" class="modal" aria-hidden="true">
+            {{--            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="edit-form">Edit Order</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" action="{{ url("user/update") }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
+                            <input type="hidden" name="order_id" id="order_id" >
                             <div class="col-md-6">
                                 <label for="select-pages" class="form-label">Service</label>
-                                <select class="form-select" aria-label="Default select example" name="type">
+                                <select class="form-select" aria-label="Default select example" id="type" name="type">
                                     @foreach($services as $service)
                                         <option value="{{ $service->label }}" >{{ $service->label}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="select-pages" class="form-label">Pages</label>
-                                <div class="pages" style="display: flex;align-items: stretch; position: relative">
-                                    <button type="button" id="decrement" class="btn btn-light">-</button>
-                                    <input  id="pages" type="number" class="form-control" name="pages" value="1"
-                                            readonly required style="text-align: center">
-                                    <button type="button" id="increment" class="btn btn-light">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="select-pages" class="form-label">Page Details</label>
-                                <input  id="words" type="text" class="form-control" name="words"
-                                        readonly value="" required >
+                                <select class="form-select" aria-label="Default select example" id="pages" name="pages">
+                                    <option selected>1 Page 275 words</option>
+
+                                    <option value="2 Pages 550 words">2 Pages 550 words</option>
+                                    <option value="3 Pages 825 words">3 Pages 825 words</option>
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label for="inputAddress" class="form-label">Level</label>
-                                <select class="form-select" aria-label="Default select example" name="level">
+                                <select class="form-select" aria-label="Default select example" id="level" name="level">
                                     @foreach($levels as $level)
                                         <option value="{{ $level->level }}" >{{ $level->level}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                                <div class="col-md-3">
-                                    <label for="date" class="form-label">Deadline</label>
-                                    <input  id="date" type="date" class="form-control" name="deadline" required >
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="timepicker" class="form-label">Time</label>
-                                    <input  id="" type="time" class="form-control" name="time" value="21:00" required >
-                                </div>
-
                             <div class="col-6">
+                                <label for="inputAddress2" class="form-label">Deadline</label>
+                                <input type="date" class="form-control" id="deadline" name="deadline" required >
+
+                            </div>
+                            <div class="col-md-12">
                                 <label for="formFile" class="form-label">Upload File</label>
                                 <input class="form-control" type="file" name="file" >
                             </div>
-                            <div class="col-6">
-                                <label for="format" class="form-label">Format</label>
-                                <select class="form-select" aria-label="Default select example" name="format">
-                                    <option selected>APA</option>
-                                    <option value="2 Pages 550 words">MLA</option>
-{{--                                    <option value="3 Pages 825 words">3 Pages 825 words</option>--}}
-                            </select>
-                            </div>
                             <div class="col-md-12">
                                 <label for="exampleFormControlTextarea1" class="form-label">Instructions</label>
-                                <textarea class="form-control" name="instructions" rows="3"></textarea>
+                                <textarea class="form-control" id="instructions" name="instructions" rows="3"></textarea>
 
                             </div>
 
@@ -398,35 +391,130 @@
                             {{--                                </div>--}}
                             <div class="col-12">
                                 <button type="submit" class="btn btn-danger">Submit Order</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                             </div>
                         </form>
                     </div>
+                    {{--                        <div class="modal-footer">--}}
+                    {{--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+                    {{--                            <button type="button" class="btn btn-primary">Save changes</button>--}}
+                    {{--                        </div>--}}
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</div>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js" integrity="sha512-s5u/JBtkPg+Ff2WEr49/cJsod95UgLHbC00N/GglqdQuLnYhALncz8ZHiW/LxDRGduijLKzeYb7Aal9h3codZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-addon-i18n.min.js" integrity="sha512-t2ZIJH81Sh+SWSb4BuA9en4j6fwja+sYOEXbqoepD9lJ+efUGD94gSWqdmgQchGmPez2ojECq4Fm6bKMUAzIiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- jQuery Custom Scroller CDN -->
+<!-- jQuery CDN  -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script><!-- jQuery Custom Scroller CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>--}}
+
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        let url = window.location.href;
+        let table = $('#example').DataTable( {
+            responsive: true,
+            ajax: {
+                processing: true,
+                serverSide: true,
+                url: url,
+                method: "GET",
+
+            },
+
+            columns: [
+                { data: "id", name:  "id"},
+                // { data: "user_email", name: "user_id" },
+                { data: "order_type", name: "order_type"},
+                { data: "order_level", name: "order_level" },
+                {data: "order_status", name:"order_status" },
+                { data: "order_words", name: "order_pages" },
+                { data: "order_deadline_date", name: "order_deadline_date" },
+                { data: "order_deadline_time", name: "order_deadline_time" },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: true
+                },
+            ]
         });
 
-        $('#timepicker').timepicker({
-            controlType: 'select',
-            oneLine: true,
-            timeFormat: 'hh:mm tt'
+        $('body').on('click', '.view-order', function () {
+            let orderId =  $(this).data('id');
+            let url = window.location.origin;
+            window.location.href = url +'/user/order/'+ orderId;
+            // $.get(url+'/user/order/'+ orderId , function (data) {
+            //
+            //     // $('#btn-save').val("edit-product");
+            //     // $('#edit-form').modal('show');
+            //     // $('#order_id').val(data.id);
+            //     // $('#instructions').val(data.order_instructions);
+            //     // $('#deadline').val(data.order_deadline);
+            //     // $('#level').val(data.order_level);
+            //     // $('#pages').val(data.order_pages);
+            //     // $('#type').val(data.order_type);
+            //
+            //     console.log(data)
+            // })
+        });
+
+        // $("#edit-form").modal();
+        $('body').on('click', '.edit-product', function () {
+            let orderId =  $(this).data('id');
+            let url = window.location.origin;
+            $.get(url+'/user/edit/'+ orderId , function (data) {
+                // $('#title-error').hide();
+                // $('#product_code-error').hide();
+                // $('#description-error').hide();
+                // $('#productCrudModal').html("Edit Product");
+                $('#btn-save').val("edit-product");
+                $('#edit-form').modal('show');
+                $('#order_id').val(data.id);
+                $('#instructions').val(data.order_instructions);
+                $('#deadline').val(data.order_deadline);
+                $('#level').val(data.order_level);
+                $('#pages').val(data.order_pages);
+                $('#type').val(data.order_type);
+
+                console.log(data)
+            })
+        });
+        $('body').on('click', '.delete-order', function () {
+
+            let orderId =  $(this).data('id');
+            let url = window.location.origin;
+            let newurl = window.location.href;
+            confirm("Are You sure want to delete !");
+
+            $.ajax({
+                type: "DELETE",
+                data: { "_token": "{{ csrf_token() }}"},
+                url: url+"/user/delete"+'/'+orderId,
+                success: function (data) {
+                    table.ajax.url(newurl).load();
+
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
         });
 
         $('#sidebarCollapse').on('click', function () {
@@ -434,52 +522,8 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
-
-        let pages = $('#pages').val();
-        console.log(pages);
-        let words = pages * 275;
-        $('#words').val(words + " words");
-
-        $('#increment').on('click', function (){
-         let oldValue = $('#pages').val();
-            console.log('this oldvalue' + oldValue)
-         let newValue = parseFloat(oldValue) + 1;
-            console.log('this newvalue' + newValue)
-            let newWords = newValue * 275;
-         $('#words').val(newWords + " words");
-            $('#pages').val(newValue);
-        })
-        $('#pages').on('keyup',function(e){
-
-            let oldValue = $('#pages').val();
-            console.log('this oldvalue' + oldValue)
-            let newValue = parseFloat(oldValue) + 1;
-            console.log('this newvalue' + newValue)
-            let newWords = newValue * 275;
-            $('#words').val(newWords + " words");
-            $('#pages').val(newValue);
-        });
-        $('#decrement').on('click',function(e){
-            e.preventDefault();
-            let quantity = parseInt($('#pages').val());
-
-            if (quantity <= 0) {
-                $('#pages').val(0);
-                $('#words').val(0 + " words");
-            }
-            else {
-                let oldValue = $('#pages').val();
-                console.log('this oldvalue' + oldValue)
-                let newValue = parseFloat(oldValue) - 1;
-                console.log('this newvalue' + newValue)
-                let newWords = newValue * 275;
-                $('#words').val(newWords + " words");
-                $('#pages').val(newValue);
-            }
-
-
-        });
     });
 </script>
 </body>
+
 </html>

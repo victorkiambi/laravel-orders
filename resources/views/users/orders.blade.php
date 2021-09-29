@@ -8,16 +8,17 @@
 
     <title>Essayzillas</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">    <!-- Our Custom CSS -->
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
-{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />--}}
+
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <style>
         /*
  DEMO STYLE
@@ -50,7 +51,7 @@
             background: #fff;
             border: none;
             border-radius: 0;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
@@ -203,6 +204,10 @@
             #sidebarCollapse span {
                 display: none;
             }
+
+        }
+        .card{
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         }
     </style>
 </head>
@@ -227,12 +232,8 @@
             </li>
             <li>
                 <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
-
             </li>
-
         </ul>
-
-
     </nav>
 
     <!-- Page Content  -->
@@ -297,24 +298,32 @@
             </div>
         </nav>
 
-        <div class="table-responsive ">
-        <table id="example" class="display table-responsive nowrap" style="width:100%">
-            <thead>
-            <tr>
-                <th>Id</th>
-{{--                <th>Email</th>--}}
-                <th>Service</th>
-                <th>Level</th>
-                <th>Status</th>
-                <th>Words</th>
-                <th>Deadline Date</th>
-                <th>Deadline Time</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-        </table>
+        <div class="card">
+            <div class="card-header">
+                <h4><b>My orders</b></h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive ">
+                    <table id="example" class="display table-responsive nowrap" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Service</th>
+                            <th>Level</th>
+                            <th>Status</th>
+                            <th>Words</th>
+                            <th>Deadline Date</th>
+                            <th>Deadline Time</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div id="edit-form" class="modal" aria-hidden="true">
+
+
+        <div id="edit-form" class="modal" aria-hidden="true" >
 {{--            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -367,29 +376,14 @@
 
                                 </div>
 
-                                {{--                                <div class="col-md-2">--}}
-                                {{--                                    <label for="inputZip" class="form-label">Zip</label>--}}
-                                {{--                                    <input type="text" class="form-control" id="inputZip">--}}
-                                {{--                                </div>--}}
-                                {{--                                <div class="col-12">--}}
-                                {{--                                    <div class="form-check">--}}
-                                {{--                                        <input class="form-check-input" type="checkbox" id="gridCheck">--}}
-                                {{--                                        <label class="form-check-label" for="gridCheck">--}}
-                                {{--                                            Check me out--}}
-                                {{--                                        </label>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-danger">Submit Order</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary btn-close" data-bs-dismiss="modal">Close</button>
 
                                 </div>
                             </form>
                         </div>
-{{--                        <div class="modal-footer">--}}
-{{--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
-{{--                            <button type="button" class="btn btn-primary">Save changes</button>--}}
-{{--                        </div>--}}
+
                     </div>
                 </div>
             </div>
@@ -400,9 +394,8 @@
 <!-- jQuery CDN  -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script><!-- jQuery Custom Scroller CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+{{--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>--}}
 
 <script type="text/javascript">

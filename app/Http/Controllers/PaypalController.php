@@ -65,7 +65,7 @@ class PaypalController extends Controller
         try {
             DB::beginTransaction();
             if($result['status'] === "COMPLETED"){
-                $transaction = new Transaction;
+                $transaction = new \App\Models\Transaction();
                 $transaction->vendor_payment_id = $orderId;
                 $transaction->payment_gateway_id  = $data['payment_gateway_id'];
                 $transaction->user_id   = $data['user_id'];

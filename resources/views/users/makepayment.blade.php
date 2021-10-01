@@ -245,7 +245,7 @@
                 <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
-                <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="{{url('/user/orders/pay')}}"><i class="fas fa-user-circle"></i> Payment</a>
             </li>
         </ul>
     </nav>
@@ -333,7 +333,7 @@
                                 <th scope="row">{{$order->id}}</th>
                                 <td>{{$order->order_type}}</td>
                                 <td>{{$order->order_pages}}</td>
-                                <td>18</td>
+                                <td>{{$order->order_total}}</td>
                             </tr>
 
                             </tbody>
@@ -454,7 +454,7 @@
                                 <input type="text" readonly class="form-control-plaintext"
                                        id="total"
                                        name="total"
-                                       value=9.00
+                                       value="{{$order->order_total}}"
                                        style="padding-top: 0">
                             </div>
                         </div>
@@ -492,7 +492,7 @@
                 body:JSON.stringify({
                     'course_id': "{{$order->id}}",
                     'user_id' : "{{auth()->user()->id}}",
-                    'amount' : $("#total").val(),
+                    'amount' : "{{$order->order_total}}",
                 })
             }).then(function(res) {
                 //res.json();
@@ -519,6 +519,7 @@
 
                 // Successful capture! For demo purposes:
                  console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                $('#exampleModal').modal('hide')
                 // var transaction = orderData.purchase_units[0].payments.captures[0];
                 // iziToast.success({
                 //     title: 'Success',

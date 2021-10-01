@@ -243,7 +243,7 @@
                 <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
-                <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="{{url('/user/orders/pay')}}"><i class="fas fa-money-bill-wave"></i></i> Payment</a>
 
             </li>
         </ul>
@@ -374,16 +374,20 @@
                                 <label for="format" class="form-label">Format</label>
                                 <select class="form-select" aria-label="Default select example" name="format">
                                     <option selected>APA</option>
-                                    <option value="2 Pages 550 words">MLA</option>
-{{--                                    <option value="3 Pages 825 words">3 Pages 825 words</option>--}}
+                                    <option value="MLA">MLA</option>
+                                    <option value="CHICAGO">CHICAGO</option>
                             </select>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-6">
                                 <label for="exampleFormControlTextarea1" class="form-label">Instructions</label>
                                 <textarea class="form-control" name="instructions" rows="3"></textarea>
+                            </div>
+                            <div class="col-6">
+                                <label for="total" class="form-label">Grand Total</label>
+                                <input class="form-control is-valid" type="text" id="total"
+                                       name="total" readonly value="$12.00" >
 
                             </div>
-
                             {{--                                <div class="col-md-2">--}}
                             {{--                                    <label for="inputZip" class="form-label">Zip</label>--}}
                             {{--                                    <input type="text" class="form-control" id="inputZip">--}}
@@ -436,28 +440,34 @@
         });
 
         let pages = $('#pages').val();
-        console.log(pages);
+
+
         let words = pages * 275;
         $('#words').val(words + " words");
 
         $('#increment').on('click', function (){
          let oldValue = $('#pages').val();
-            console.log('this oldvalue' + oldValue)
          let newValue = parseFloat(oldValue) + 1;
-            console.log('this newvalue' + newValue)
-            let newWords = newValue * 275;
+         let newWords = newValue * 275;
+
          $('#words').val(newWords + " words");
-            $('#pages').val(newValue);
+         $('#pages').val(newValue);
+
+         let grandTotal = newValue * 12;
+         $('#total').val(`$${grandTotal}.00`);
         })
+
         $('#pages').on('keyup',function(e){
 
             let oldValue = $('#pages').val();
             console.log('this oldvalue' + oldValue)
             let newValue = parseFloat(oldValue) + 1;
-            console.log('this newvalue' + newValue)
             let newWords = newValue * 275;
             $('#words').val(newWords + " words");
             $('#pages').val(newValue);
+
+            let grandTotal = newValue * 12.00;
+            $('#total').val(`$${grandTotal}.00`)
         });
         $('#decrement').on('click',function(e){
             e.preventDefault();
@@ -466,15 +476,19 @@
             if (quantity <= 0) {
                 $('#pages').val(0);
                 $('#words').val(0 + " words");
+                $('#total').val(`$0.00`)
             }
             else {
                 let oldValue = $('#pages').val();
-                console.log('this oldvalue' + oldValue)
+
                 let newValue = parseFloat(oldValue) - 1;
-                console.log('this newvalue' + newValue)
+
                 let newWords = newValue * 275;
                 $('#words').val(newWords + " words");
                 $('#pages').val(newValue);
+
+                let grandTotal = newValue * 12.00;
+                $('#total').val(`$${grandTotal}.00`)
             }
 
 

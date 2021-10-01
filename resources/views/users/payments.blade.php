@@ -232,7 +232,7 @@
                 <a href="{{url('/user/show/orders')}}"><i class="fas fa-shopping-cart"></i> Orders</a>
             </li>
             <li>
-                <a href="#pageSubmenu"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="{{url('/user/orders/pay')}}"><i class="fas fa-money-bill-wave"></i></i> Payment</a>
             </li>
         </ul>
     </nav>
@@ -313,8 +313,9 @@
                             <th>Level</th>
                             <th>Status</th>
                             <th>Words</th>
-                            <th>Deadline Date</th>
-                            <th>Deadline Time</th>
+                            <th>Deadline</th>
+                            <th>Time</th>
+                            <th>Total</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -442,6 +443,7 @@
                 { data: "order_words", name: "order_pages" },
                 { data: "order_deadline_date", name: "order_deadline_date" },
                 { data: "order_deadline_time", name: "order_deadline_time" },
+                { data: "order_total", name: "order_total" },
                 {
                     data: 'action',
                     name: 'action',

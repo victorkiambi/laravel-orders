@@ -57,7 +57,11 @@ class OrdersController extends Controller
         ]);
 
 
-            $fileName = $request->file()? time().'_'.$request->file->getClientOriginalName(): "";
+        $str = $request['total'];
+        $total = ltrim($str, '$');
+
+
+        $fileName = $request->file()? time().'_'.$request->file->getClientOriginalName(): "";
             $filePath = $request->file()? $request->file('file')->storeAs('uploads', $fileName, 'public') : "";
 
         $user_id =  Auth::user()->id;
@@ -68,11 +72,11 @@ class OrdersController extends Controller
         $order->order_pages = $validated['pages'];
         $order->order_words = $validated['words'];
         $order->order_format = $request['format'];
-
         $order->order_deadline_date = $validated['deadline'];
         $order->order_deadline_time = $request['time'];
         $order->order_instructions = $request->instructions ?: "";
         $order->order_level= $validated['level'];
+        $order->order_total = (float)$total;
         $order->order_status = "submitted";
         $order->file_name = $fileName;
         $order->file_path = $filePath;

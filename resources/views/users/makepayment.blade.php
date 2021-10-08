@@ -492,7 +492,7 @@
                 body:JSON.stringify({
                     'course_id': "{{$order->id}}",
                     'user_id' : "{{auth()->user()->id}}",
-                    'amount' : "{{$order->order_total}}",
+                    'amount' : 0.01,
                 })
             }).then(function(res) {
                 //res.json();

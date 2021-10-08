@@ -321,7 +321,7 @@
         @endif
         <h4>Create New Order</h4>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <div class="card">
                     <div class="card-body">
                         <form class="row g-3 needs-validation" action="{{ url("user/create/order") }}" method="POST" enctype="multipart/form-data">
@@ -344,8 +344,8 @@
                                     <button type="button" id="increment" class="btn btn-light">+</button>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <label for="select-pages" class="form-label">Page Details</label>
+                            <div class="col-md-3">
+                                <label for="select-pages" class="form-label">Words</label>
                                 <input  id="words" type="text" class="form-control" name="words"
                                         readonly value="" required >
                             </div>
@@ -404,6 +404,16 @@
                                 <button type="submit" class="btn btn-danger">Submit Order</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{asset("images/paypal.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Pay with Paypal</h5>
+                        <p class="card-text">Making payments is easy via paypal</p>
+{{--                        <a href="#" class="btn btn-primary">Go somewhere</a>--}}
                     </div>
                 </div>
             </div>

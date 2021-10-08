@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Levels;
 use App\Models\Orders;
-use App\Http\Controllers\Controller;
 use App\Models\Services;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Tests\Integration\Queue\Order;
+
 use Yajra\DataTables\Facades\DataTables;
-use function PHPUnit\Framework\returnArgument;
+
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -83,9 +81,13 @@ class OrdersController extends Controller
 
         $order->save();
 
-//        return redirect()->back()->with('Success', 'Order created Successfully');
 
-        return redirect('/user/show/orders');
+
+        $latestOrder = DB::table('orders')->latest()->first();
+
+        return view('users.makepayment', ['order'=> $latestOrder]);
+
+
     }
 
     /**

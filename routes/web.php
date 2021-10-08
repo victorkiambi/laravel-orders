@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Levels;
+use App\Models\Services;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    $services = Services::all();
+    $levels = Levels::all();
+    return view('welcome', ['services'=> $services, 'levels'=> $levels]);
 });
 
 Auth::routes();

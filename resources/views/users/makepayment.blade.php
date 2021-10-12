@@ -232,7 +232,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Essayzilas</h3>
+            <h3>Essayzillas</h3>
         </div>
 
         <ul class="list-unstyled components">
@@ -492,7 +492,7 @@
                 body:JSON.stringify({
                     'course_id': "{{$order->id}}",
                     'user_id' : "{{auth()->user()->id}}",
-                    'amount' : 0.01,
+                    'amount' : {{$order->order_total}},
                 })
             }).then(function(res) {
                 //res.json();

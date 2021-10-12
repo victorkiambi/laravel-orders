@@ -442,14 +442,7 @@
             window.location.href = url +'/user/order/'+ orderId;
             // $.get(url+'/user/order/'+ orderId , function (data) {
             //
-            //     // $('#btn-save').val("edit-product");
-            //     // $('#edit-form').modal('show');
-            //     // $('#order_id').val(data.id);
-            //     // $('#instructions').val(data.order_instructions);
-            //     // $('#deadline').val(data.order_deadline);
-            //     // $('#level').val(data.order_level);
-            //     // $('#pages').val(data.order_pages);
-            //     // $('#type').val(data.order_type);
+
             //
             //     console.log(data)
             // })

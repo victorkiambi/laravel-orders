@@ -62,6 +62,8 @@ class PaypalController extends Controller
         $provider->setAccessToken($token);
         $result = $provider->capturePaymentOrder($orderId);
 
+//        return response()->json($result);
+
 //            $result = $result->purchase_units[0]->payments->captures[0];
         try {
             DB::beginTransaction();
@@ -77,6 +79,9 @@ class PaypalController extends Controller
 //                $order->status = TransactionStatus::COMPLETED;
 //                $order->save();
                 DB::commit();
+            }
+            else{
+                return response()->json($result);
             }
         } catch (Exception $e) {
             DB::rollBack();

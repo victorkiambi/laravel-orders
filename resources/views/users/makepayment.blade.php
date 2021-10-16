@@ -492,13 +492,13 @@
                 body:JSON.stringify({
                     'course_id': "{{$order->id}}",
                     'user_id' : "{{auth()->user()->id}}",
-                    'amount' : {{$order->order_total}},
+                    'amount' : 0.01
                 })
             }).then(function(res) {
                 //res.json();
                 return res.json();
             }).then(function(orderData) {
-                console.log("this order data id",orderData);
+                console.log("this order data ",orderData);
                 return orderData.id;
             });
         },
@@ -513,19 +513,36 @@
                     user_id: "{{ auth()->user()->id }}",
                 })
             }).then(function(res) {
-                console.log(res.json());
-                // return res.json();
+                console.log("response is:" +res);
+                return res.json();
             }).then(function(orderData) {
 
+                var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                console.log("error"+orderData)
+
+                if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                    return actions.restart(); // Recoverable state, per:
+                    // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                }
+
+                if (errorDetail) {
+                    var msg = 'Sorry, your transaction could not be processed.';
+                    if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                    if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                    return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+                }
+
                 // Successful capture! For demo purposes:
-                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                $('#exampleModal').modal('hide')
-                // var transaction = orderData.purchase_units[0].payments.captures[0];
-                // iziToast.success({
-                //     title: 'Success',
-                //     message: 'Payment completed',
-                //     position: 'topRight'
-                // });
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                var transaction = orderData.purchase_units[0].payments.captures[0];
+                alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                // Replace the above to show a success message within this page, e.g.
+                const element = document.getElementById('paypal-button-container');
+                element.innerHTML = '';
+                element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
             });
         }
 

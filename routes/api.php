@@ -21,3 +21,4 @@ Route::group(['prefix'=>'paypal'], function(){
     Route::post('/order/create',[\App\Http\Controllers\PaypalController::class,'create']);
     Route::post('/order/capture/',[\App\Http\Controllers\PaypalController::class,'capture']);
 });
+Route::get('/data',[\App\Http\Controllers\DataController::class, 'getData']);

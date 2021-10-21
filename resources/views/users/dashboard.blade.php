@@ -9,8 +9,7 @@
     <title>Essayzillas</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">{{--    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css" integrity="sha512-LT9fy1J8pE4Cy6ijbg96UkExgOjCqcxAC7xsnv+mLJxSvftGVmmc236jlPTZXPcBRQcVOWoK1IJhb1dAjtb4lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {{--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">--}}
@@ -265,15 +264,15 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto float-right">
+                    <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Page</a>
+{{--                            <a class="nav-link" href="#">Page</a>--}}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+{{--                            <a class="nav-link" href="#">Page</a>--}}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+{{--                            <a class="nav-link" href="#">Page</a>--}}
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link " href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -327,9 +326,9 @@
                         <form class="row g-3 needs-validation" action="{{ url("user/create/order") }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 ">
                                 <label for="select-pages" class="form-label">Service</label>
-                                <select class="form-select" aria-label="Default select example" name="type">
+                                <select class="form-control" aria-label="Default select example" name="type">
                                     @foreach($services as $service)
                                         <option value="{{ $service->label }}" >{{ $service->label}}</option>
                                     @endforeach
@@ -351,7 +350,7 @@
                             </div>
                             <div class="col-6">
                                 <label for="inputAddress" class="form-label">Level</label>
-                                <select class="form-select" aria-label="Default select example" name="level">
+                                <select class="form-control" aria-label="Default select example" name="level">
                                     @foreach($levels as $level)
                                         <option value="{{ $level->level }}" >{{ $level->level}}</option>
                                     @endforeach
@@ -368,11 +367,11 @@
 
                             <div class="col-6">
                                 <label for="formFile" class="form-label">Upload File</label>
-                                <input class="form-control" type="file" name="file" >
+                                <input class="form-control-file" type="file" name="file" >
                             </div>
                             <div class="col-6">
                                 <label for="format" class="form-label">Format</label>
-                                <select class="form-select" aria-label="Default select example" name="format">
+                                <select class="form-control" aria-label="Default select example" name="format">
                                     <option selected>APA</option>
                                     <option value="MLA">MLA</option>
                                     <option value="CHICAGO">CHICAGO</option>
@@ -422,9 +421,7 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script><!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js" integrity="sha512-s5u/JBtkPg+Ff2WEr49/cJsod95UgLHbC00N/GglqdQuLnYhALncz8ZHiW/LxDRGduijLKzeYb7Aal9h3codZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
